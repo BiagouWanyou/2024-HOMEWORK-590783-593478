@@ -50,39 +50,43 @@ public class StanzaTest {
 }
  
  
-/*Verifica setStanzaAdiacente assegni la stanza A1 come adiacente di S1*/
+/*Verifica setStanzaAdiacente assegni la stanza2 come adiacente della stanza1*/
 	@Test
-	public void testAdiacenteUnaAssegnazione() {
+	public void testimpostaStanzaAdiacenteUnaAssegnazione() {
 		assertNotEquals(Stanza2,Stanza1.getStanzaAdiacente("est"));
 		Stanza1.impostaStanzaAdiacente("est", Stanza2);
 		assertEquals(Stanza2,Stanza1.getStanzaAdiacente("est"));
 	}
-	/*Verifica setStanzaAdiacente assegni la stanza A2.2 come adiacente di S2 sovrascrivendo A2.1*/
+	/*Verifica setStanzaAdiacente assegni la stanza3 come adiacente alla stanza1 sovrascrivendo stanza2*/
 	@Test
-	public void testAdiacenteDueAssegnazioni() {
+	public void testimpostaStanzaAdiacenteDueAssegnazioni() {
 		Stanza1.impostaStanzaAdiacente("est", Stanza2);
 		assertEquals(Stanza2,Stanza1.getStanzaAdiacente("est"));
 		Stanza1.impostaStanzaAdiacente("est", Stanza3);
 		assertEquals(Stanza3,Stanza1.getStanzaAdiacente("est"));
 	}
-	/*Verifica che aggiungendo un riferimento a null come stanza adiacente*/
+	/*Verifica che impostaStanzaAdiacente su due direzioni diverse*/
 	@Test
-	public void testAdiacenteConSAdiacenteNull() {
-		assertEquals(null,Stanza1.getStanzaAdiacente("nord"));
+	public void testimpostaStanzaAdiacenteDueAssegnazioniDiverseDirezioni() {
+		Stanza1.impostaStanzaAdiacente("est", Stanza2);
+		Stanza1.impostaStanzaAdiacente("nord", Stanza3);
+		assertEquals(Stanza3,Stanza1.getStanzaAdiacente("nord"));
+		assertEquals(Stanza2,Stanza1.getStanzaAdiacente("est"));
 	}
+
 	/*Verifica l' aggiunta di un attrezzo ad una stanza vuota*/
 	@Test
 	public void testAddPennaAdArrayVuoto() {
 		Stanza1.addAttrezzo(Penna);
 		assertEquals(Penna,Stanza1.getAttrezzo("penna"));
 	}
-	/*Verifica che addAttrezzo non sovrascrivi altri atrezzi in caso di array pieno*/
+	/*Verifica che addAttrezzo non sovrascrivi altri attrezzi in caso di array pieno*/
 	@Test 
 	public void testAddPennaAdArrayPieno() {
 		StanzaArrayPieno.addAttrezzo(Penna);
 		assertFalse(StanzaArrayPieno.hasAttrezzo("penna"));
 	}
-	/*Verifica AddPenna inserisca un attrezzo corretamente se l' array è ha un solo attrezzo*/
+	/*Verifica AddAttrezzo inserisca un attrezzo corretamente se l' array attrezzi della stanza ha un solo attrezzo*/
 	@Test
 	public void testAddPennaAdArrayConUnAttrezzo(){
 		Stanza1.addAttrezzo(Penna);
