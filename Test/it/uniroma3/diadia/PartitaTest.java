@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import it.uniroma3.diadia.IOConsole.IOConsole;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.giocatore.*;
 public class PartitaTest {	
@@ -17,7 +18,8 @@ public class PartitaTest {
 	private Stanza Stanza2;
 	@Before
 	public void setUp() throws Exception {
-		Partita= new Partita();
+		IOConsole IO= new IOConsole();
+		Partita= new Partita(IO);
 		Stanza1= new Stanza("S1");
 		Stanza2= new Stanza("S2");
 		Partita.setStanzaCorrente(Stanza1);
