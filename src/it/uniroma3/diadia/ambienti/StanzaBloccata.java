@@ -11,15 +11,21 @@ public class StanzaBloccata extends Stanza {
 	}
 	@Override
 	public Stanza getStanzaAdiacente(String direzione) {
-		if(direzione.equals(DirezioneLocked)&&!this.hasAttrezzo(AttrezzoUnlock)) 
+		if(direzione.equals(DirezioneLocked)&&!this.hasAttrezzo(AttrezzoUnlock)) {
+			System.out.println("hey");
 			return this;
+
+		}
 		else 
 			return super.getStanzaAdiacente(direzione);
 	}
 	@Override 
 		public String getDescrizione() {
+		if(!this.hasAttrezzo(AttrezzoUnlock))
 			return super.getDescrizione() + "\nLa direzione "+DirezioneLocked+" è bloccata, sembra che "
 				+ "un passepartout possa renderti libero di proseguire";
+		else
+			return super.getDescrizione();
 		}
 
 

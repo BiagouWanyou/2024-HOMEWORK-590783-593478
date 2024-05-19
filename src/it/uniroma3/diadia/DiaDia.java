@@ -3,7 +3,9 @@ package it.uniroma3.diadia;
 import java.util.Scanner;
 
 import it.uniroma3.diadia.IOConsole.IOConsole;
-import it.uniroma3.diadia.IOConsole.io;
+import it.uniroma3.diadia.IOConsole.IO;
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.comandi.Comando;
@@ -23,7 +25,8 @@ import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
  */
 
 public class DiaDia {
-	public io IO;
+	public IO IO;
+	public Labirinto Roma3;
 	static final private String MESSAGGIO_BENVENUTO = ""+
 			"Ti trovi nell'Universita', ma oggi e' diversa dal solito...\n" +
 			"Meglio andare al piu' presto in biblioteca a studiare. Ma dov'e'?\n"+
@@ -38,10 +41,14 @@ public class DiaDia {
 
 	private Partita partita;
 
-	public DiaDia(io IO) {
+	public DiaDia(Labirinto labirinto, IO IO) {
 		this.IO= IO;
-		this.partita = new Partita(IO);
+		this.partita = new Partita(labirinto,IO);
 		
+	}
+	public DiaDia(IO io) {
+		this.IO= io;
+		this.partita= new Partita(IO);
 	}
 
 	public void gioca() {
@@ -70,9 +77,13 @@ public class DiaDia {
 
 
 	public static void main(String[] argc) {
-		io IO = new IOConsole();
+		IO IO = new IOConsole();
+		Labirinto labirinto = new LabirintoBuilder()
+		.addStanzaIniziale("LabCampusOne")
+		.addStanzaVincente("Biblioteca")
+		.addAdiacenza("LabCampusOne","Biblioteca","ovest")
+		.getLabirinto();
 		DiaDia gioco = new DiaDia(IO);
-		IO.mostraMessaggio("hey");
 		gioco.gioca();
 	}
 }

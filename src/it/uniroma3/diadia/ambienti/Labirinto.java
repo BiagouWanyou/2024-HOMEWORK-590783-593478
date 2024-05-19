@@ -6,9 +6,6 @@ public class Labirinto {
 	private Stanza stanzaIniziale;
 	private Stanza stanzaVincente;
 
-	public Labirinto() {
-		creaStanze();
-	}
 
 	/**
 	 * Crea tutte le stanze e le porte di collegamento
@@ -54,5 +51,11 @@ public class Labirinto {
 	}
 	public Stanza getStanzaVincente() {
 		return this.stanzaVincente;
+	}
+	public void setStanzaIniziale(Stanza iniziale) {
+		this.stanzaIniziale= iniziale;
+	}
+	public void setStanzaVincente(Stanza vincente) {
+		this.stanzaVincente= vincente;
 	}
 }

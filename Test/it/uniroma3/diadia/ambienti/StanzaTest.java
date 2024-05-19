@@ -2,55 +2,41 @@ package it.uniroma3.diadia.ambienti;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
-import org.junit.AfterClass;
+import java.util.LinkedList;
+import java.util.List;
+
+
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class StanzaTest {
- private Stanza Stanza1;
- private Stanza Stanza2;
- private Stanza Stanza3;
- private Stanza StanzaArrayPieno;
- private Attrezzo Penna;
- private Attrezzo duplicato;
- private Attrezzo Piuma;
- private Attrezzo[] Attrezzi;
- 
+	private Stanza Stanza1;
+	private Stanza Stanza2;
+	private Stanza Stanza3;
+	private Attrezzo Penna;
+	private Attrezzo Piuma;
+	private List<Attrezzo> Attrezzi;
 
 
- @Before
+
+	@Before
 	public void setUp() throws Exception {
 		Stanza1  = new Stanza("S1");
-
-		
 		Penna = new Attrezzo("penna",0);
-		
-		StanzaArrayPieno = new Stanza("StanzaPiena");
-		duplicato = new Attrezzo("duplicato",0);
-		for(int i=0;i < 10;i++) {
-			StanzaArrayPieno.addAttrezzo(duplicato);
-		}
-		
 		Stanza2= new Stanza("S2");
 		Stanza2.addAttrezzo(Penna);
-		
-		
 		Piuma = new Attrezzo("piuma",0);
-		
 		Stanza3=new Stanza("S3");
 		Stanza3.addAttrezzo(Penna);
 		Stanza3.addAttrezzo(Piuma);
-		
-		Attrezzi= new Attrezzo[10];
-		Attrezzi[0]=Piuma;
-}
- 
- 
-/*Verifica setStanzaAdiacente assegni la stanza2 come adiacente della stanza1*/
+		Attrezzi= new LinkedList<Attrezzo>();
+		Attrezzi.add(Piuma);
+	}
+
+
+	/*Verifica setStanzaAdiacente assegni la stanza2 come adiacente della stanza1*/
 	@Test
 	public void testimpostaStanzaAdiacenteUnaAssegnazione() {
 		assertNotEquals(Stanza2,Stanza1.getStanzaAdiacente("est"));
@@ -81,11 +67,7 @@ public class StanzaTest {
 		assertEquals(Penna,Stanza1.getAttrezzo("penna"));
 	}
 	/*Verifica che addAttrezzo non sovrascrivi altri attrezzi in caso di array pieno*/
-	@Test 
-	public void testAddPennaAdArrayPieno() {
-		StanzaArrayPieno.addAttrezzo(Penna);
-		assertFalse(StanzaArrayPieno.hasAttrezzo("penna"));
-	}
+
 	/*Verifica AddAttrezzo inserisca un attrezzo corretamente se l' array attrezzi della stanza ha un solo attrezzo*/
 	@Test
 	public void testAddPennaAdArrayConUnAttrezzo(){
@@ -110,8 +92,8 @@ public class StanzaTest {
 	@Test 
 	public void testRemovePrimoDi2Attrezzi() {
 		Stanza3.removeAttrezzo(Penna);
-		assertArrayEquals( Attrezzi, Stanza3.getAttrezzi() );
-		
-		
+		assertEquals( Attrezzi, Stanza3.getAttrezzi() );
+
+
 	}
 }
