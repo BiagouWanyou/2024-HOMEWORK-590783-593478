@@ -7,9 +7,7 @@ import java.util.Set;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-public class ComandoGuarda implements Comando{
-	private String nome;
-	private String parametro;
+public class ComandoGuarda extends AbstractComando{
 	@Override
 	public void esegui(Partita partita){
 		if(parametro==null) {
@@ -53,23 +51,15 @@ public class ComandoGuarda implements Comando{
 				msg.deleteCharAt(msg.length()-1);
 			partita.getIO().mostraMessaggio(msg.toString());
 		}
-		if(this.parametro.equals("stanza"))
+		else if(this.parametro.equals("stanza"))
 			partita.getIO().mostraMessaggio(partita.getStanzaCorrente().getDescrizione());
+		else
+			partita.getIO().mostraMessaggio("Specifica il parametro da guardare");
 	}
-	@Override
 	public void setParametro(String parametro){
 		this.parametro=parametro;
 	}
-	
-	@Override
-	public String getNome() {
-		return this.nome;
-	}
-	@Override
-	public String getParametro() {
-		return this.parametro;
-	}
 	public ComandoGuarda() {
-		this.nome= "guarda";
+		super.setNome("guarda");;
 	}
 }

@@ -1,16 +1,20 @@
 package it.uniroma3.diadia;
 
+import java.io.FileReader;
+import java.util.Properties;
 import java.util.Scanner;
 
 import it.uniroma3.diadia.IOConsole.IOConsole;
 import it.uniroma3.diadia.IOConsole.IO;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
+import it.uniroma3.diadia.ambienti.Labirinto.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.comandi.AbstractComando;
 import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.FabbricaDiComandi;
 import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 
 /**
  * Classe principale di diadia, un semplice gioco di ruolo ambientato al dia.
@@ -44,46 +48,52 @@ public class DiaDia {
 	public DiaDia(Labirinto labirinto, IO IO) {
 		this.IO= IO;
 		this.partita = new Partita(labirinto,IO);
-		
+
 	}
 	public DiaDia(IO io) {
 		this.IO= io;
 		this.partita= new Partita(IO);
 	}
+	public DiaDia(IO io, String file) {
+		this.IO= io;
+		this.partita= new Partita(IO,file);
+	}
 
 	public void gioca() {
 		String istruzione; 
-	
+
 		this.IO.mostraMessaggio(MESSAGGIO_BENVENUTO);	
 		do		
-	
+
 			istruzione = IO.leggiRiga();
 		while (!processaIstruzione(istruzione));
 	}   
 	private boolean processaIstruzione(String istruzione) {
-		Comando comandoDaEseguire;
-		FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica();
+		AbstractComando comandoDaEseguire;
+		FabbricaDiComandi factory = new FabbricaDiComandiRiflessiva();
 		comandoDaEseguire = factory.costruisciComando(istruzione);
 		comandoDaEseguire.esegui(this.partita);
 		if (this.partita.vinta())
 
-		System.out.println("Hai vinto!");
+			System.out.println("Hai vinto!");
 		if (!this.partita.giocatoreIsVivo())
 
-		System.out.println("Hai esaurito i CFU...");
+			System.out.println("Hai esaurito i CFU...");
 
 		return this.partita.isFinita();
-		}
+	}
 
 
-	public static void main(String[] argc) {
+	public static void main(String[] argc) throws Exception {
 		IO IO = new IOConsole();
-		Labirinto labirinto = new LabirintoBuilder()
-		.addStanzaIniziale("LabCampusOne")
-		.addStanzaVincente("Biblioteca")
-		.addAdiacenza("LabCampusOne","Biblioteca","ovest")
-		.getLabirinto();
-		DiaDia gioco = new DiaDia(IO);
+		LabirintoBuilder labirinto =new Labirinto.LabirintoBuilder()
+				.addStanzaIniziale("LabCampusOne")
+				.addStanzaVincente("Biblioteca")
+				.addAdiacenza("LabCampusOne","Biblioteca","ovest")
+				.getLabirinto();
+		
+		
+		DiaDia gioco = new DiaDia(IO, "resources/lab/Labirinto.txt");
 		gioco.gioca();
 	}
 }

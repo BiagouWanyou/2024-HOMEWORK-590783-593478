@@ -1,13 +1,26 @@
 package it.uniroma3.diadia.giocatore;
 
+import java.io.FileReader;
+import java.util.Properties;
+
 public class giocatore {
 	private int cfu;
-	static final private int CFU_INIZIALI = 20;
-	private Borsa Borsa;
+	static final private int CFU_INIZIALI = 1;
+	private Borsa borsa;
 	
 	public giocatore() {
-		cfu=CFU_INIZIALI;
-		this.Borsa =new Borsa();
+		try {
+			Properties p= new Properties();
+			p.load(new FileReader("resources/diadia.properties"));
+			String cfuString = p.getProperty("cfu_iniziali");
+			this.cfu= Integer.parseInt(cfuString);
+			System.out.println("CFU  inizlai:"+this.cfu);
+		}
+		catch(Exception e) {
+			System.out.println("errore");
+			this.cfu= CFU_INIZIALI;
+			}
+		borsa= new Borsa();
 	}
 	public int getCfu() {
 		return this.cfu;
@@ -17,7 +30,7 @@ public class giocatore {
 		this.cfu = cfu;		
 	}
 	public Borsa getBorsa() {
-		return this.Borsa;
+		return this.borsa;
 	}
 
 }

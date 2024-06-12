@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.HashMap;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.personaggi.AbstractPersonaggio;
 
 /**
  * Classe Stanza - una stanza in un gioco di ruolo.
@@ -22,8 +23,32 @@ public class Stanza implements Comparable<Stanza>{
 
 	private String nome;
 	private List<Attrezzo> attrezzi;
-	private Map<String, Stanza> stanzeAdiacenti;
-	
+	private Map<Direction, Stanza> stanzeAdiacenti;
+	private AbstractPersonaggio pg;
+	public enum Direction {
+		NORD() {
+			@Override public Direction opposta() {
+				return SUD;
+			}
+		},
+
+		OVEST() {
+			@Override public Direction opposta() {
+				return EST;
+			}
+		},
+		SUD(){
+			@Override	public Direction opposta() {
+				return NORD;
+			}
+		},
+		EST(){
+			@Override	public Direction opposta() {
+				return OVEST;
+			}
+		};
+
+		public abstract Direction opposta();}
 
 	/**
 	 * Crea una stanza. Non ci sono stanze adiacenti, non ci sono attrezzi.
@@ -31,7 +56,7 @@ public class Stanza implements Comparable<Stanza>{
 	 */
 	public Stanza(String nome) {
 		this.nome = nome;
-		this.stanzeAdiacenti = new HashMap<String,Stanza>();
+		this.stanzeAdiacenti = new HashMap<Direction,Stanza>();
 		this.attrezzi = new LinkedList<Attrezzo>();
 	}
 
@@ -42,12 +67,15 @@ public class Stanza implements Comparable<Stanza>{
 	 * @param stanza stanza adiacente nella direzione indicata dal primo parametro.
 	 */
 	public void impostaStanzaAdiacente(String direzione, Stanza stanza) {
-		if(this.getStanzaAdiacente(direzione)!=null)
-			stanzeAdiacenti.put(direzione, stanza);
-		else
-			if(this.getMapStanzeAdiacenti().size()<4)
-				stanzeAdiacenti.put(direzione, stanza);
-		
+		try{ 
+			Direction dir = Direction.valueOf(direzione.toUpperCase());
+			stanzeAdiacenti.put(dir, stanza);
+		}
+		catch(IllegalArgumentException e){
+			System.out.println("Direzione inestistente");
+
+		}
+
 	}
 
 	/**
@@ -55,7 +83,11 @@ public class Stanza implements Comparable<Stanza>{
 	 * @param direzione
 	 */
 	public Stanza getStanzaAdiacente(String direzione) {
-		return stanzeAdiacenti.get(direzione);
+		try {Stanza s =stanzeAdiacenti.get(Direction.valueOf(direzione.toUpperCase()));
+			return s;}
+		catch(IllegalArgumentException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -91,8 +123,8 @@ public class Stanza implements Comparable<Stanza>{
 		if(!this.hasAttrezzo(attrezzo.getNome()))
 			return attrezzi.add(attrezzo);
 		else
-			 return false;
-		
+			return false;
+
 	}
 
 	/**
@@ -102,10 +134,10 @@ public class Stanza implements Comparable<Stanza>{
 	 */
 	public String toString() {
 		StringBuilder risultato = new StringBuilder();
-		List<String> direzioni =this.getDirezioni();
+		List<Direction> direzioni =this.getDirezioni();
 		risultato.append(this.nome);
 		risultato.append("\nUscite: ");
-		for (String direzione : direzioni)
+		for (Direction direzione : direzioni)
 			if (direzione!=null)
 				risultato.append(" " + direzione);
 		if(!this.attrezzi.isEmpty())
@@ -114,6 +146,8 @@ public class Stanza implements Comparable<Stanza>{
 			if(attrezzo!=null)
 				risultato.append(attrezzo.toString()+" ");
 		}
+		if(pg!=null)
+			risultato.append("\nPersonaggio:"+this.pg.getNome()+"("+this.pg.getClass().getSimpleName()+")");
 		return risultato.toString();
 	}
 
@@ -151,22 +185,27 @@ public class Stanza implements Comparable<Stanza>{
 	 * @param nomeAttrezzo
 	 * @return true se l'attrezzo e' stato rimosso, false altrimenti
 	 */
-	
+
 	public boolean removeAttrezzo(Attrezzo attrezzo) {
 		return attrezzi.remove(attrezzo);
 	}
 
-	public List<String> getDirezioni() {
-		List<String> direzioni = new LinkedList<>(this.stanzeAdiacenti.keySet());
+	public List<Direction> getDirezioni() {
+		List<Direction> direzioni = new LinkedList<>(this.stanzeAdiacenti.keySet());
 		return direzioni;
 	}
 	@Override
 	public int compareTo(Stanza stanza) {
 		return this.getNome().compareTo(stanza.getNome());
 	}
-	public Map<String, Stanza> getMapStanzeAdiacenti() {
+	public Map<Direction, Stanza> getMapStanzeAdiacenti() {
 		return this.stanzeAdiacenti;
 	}
-	
+	public AbstractPersonaggio getPersonaggio() {
+		return this.pg;
+	}
+	public void setPersonaggio(AbstractPersonaggio pg) {
+		this.pg = pg;
+	}
 
 }

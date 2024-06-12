@@ -12,7 +12,6 @@ public class StanzaBloccata extends Stanza {
 	@Override
 	public Stanza getStanzaAdiacente(String direzione) {
 		if(direzione.equals(DirezioneLocked)&&!this.hasAttrezzo(AttrezzoUnlock)) {
-			System.out.println("hey");
 			return this;
 
 		}

@@ -1,0 +1,11 @@
+Stanze: biblioteca, N10, N11
+Stanze Magiche: magica 1, magica2 2
+Stanze Buie: buia lanterna
+Stanze Bloccate: bloccata nord chiave
+Inizio: N10
+Vincente: N11
+Attrezzi: martello 10 biblioteca, pinza 2 N10, lanterna 1 N10, chiave 1 N10, osso 1 N10
+Maghi: Piero; Cretino. che cazzo vuoi?; spada 10 N10
+Cani: Birbono; GRRRR; chiave 1 osso biblioteca
+Streghe: Strega; Non essere spaventato tesoro; magica
+Uscite: biblioteca nord N10, biblioteca sud N11, magica est biblioteca, buia est magica, bloccata sud magica, magica2 nord magica

@@ -13,7 +13,7 @@ public class LabirintoTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Roma3 = new Labirinto();
+		Roma3 = Labirinto.newBuilder();
 		Roma3.creaStanze();
 	}
 

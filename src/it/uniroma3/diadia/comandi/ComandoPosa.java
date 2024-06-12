@@ -3,9 +3,8 @@ package it.uniroma3.diadia.comandi;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-public class ComandoPosa implements Comando{
-	private String parametro;
-	private String nome;
+public class ComandoPosa extends AbstractComando{
+	
 	public void esegui(Partita partita) {
 		if(!partita.getGiocatore().getBorsa().hasAttrezzo(this.parametro))
 			return;
@@ -18,16 +17,8 @@ public class ComandoPosa implements Comando{
 	public void setParametro(String parametro) {
 		this.parametro=parametro;
 	}
-	@Override
-	public String getNome() {
-		return this.nome;
-	}
-	@Override
-	public String getParametro() {
-		return this.parametro;
-	}
 	public ComandoPosa() {
-		this.nome= "posa";
+		this.setNome("posa");;
 	}
 
 }

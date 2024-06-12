@@ -1,9 +1,10 @@
 package it.uniroma3.diadia;
 
 
+import java.io.FileNotFoundException;
+
 import it.uniroma3.diadia.IOConsole.IO;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.giocatore.giocatore;
 
@@ -22,10 +23,25 @@ public class Partita {
 	private Stanza stanzaCorrente;
 	private boolean finita;
 	
+	public Partita(IO io,String testo) {
+		this.IO = io;
+		Giocatore = new giocatore();
+		try {
+			Roma3 = new Labirinto(testo);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//Roma3.creaStanze();
+		stanzaCorrente = Roma3.getStanzaIniziale();
+		this.finita= false;
+		
+	}
 	public Partita(IO io) {
 		this.IO = io;
 		Giocatore = new giocatore();
-		Roma3 = new LabirintoBuilder();
+		Roma3= Labirinto.newBuilder();
 		Roma3.creaStanze();
 		stanzaCorrente = Roma3.getStanzaIniziale();
 		this.finita= false;
@@ -35,7 +51,6 @@ public class Partita {
 		this.IO = IO;
 		Giocatore = new giocatore();
 		Roma3 = labirinto;
-		//Roma3.creaStanze();
 		stanzaCorrente = Roma3.getStanzaIniziale();
 		this.finita = false;
 	}

@@ -7,7 +7,8 @@ import org.junit.Test;
 
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.IOConsole.IOConsole;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.Labirinto.LabirintoBuilder;
 
 public class ComandoVaiTest {
 	Partita partita;
@@ -18,7 +19,7 @@ public class ComandoVaiTest {
 	@Before
 	public void setUp() throws Exception {
 		IO= new IOConsole();
-		labirinto= new LabirintoBuilder();
+		labirinto= Labirinto.newBuilder();
 	
 		vai = new ComandoVai();
 		labirinto.addStanzaIniziale("Iniziale")
